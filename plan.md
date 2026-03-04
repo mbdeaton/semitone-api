@@ -22,20 +22,18 @@ Deploy as a minimal microservice using FastAPI and Fly.io.
 
 # 2. Create the API Project
 
-### 2.1 Create project directory
+### 2.1 Create project directory and initialize Poetry
 
 ```bash
 mkdir semitone-api
 cd semitone-api
-python -m venv venv
-source venv/bin/activate
+poetry init
 ```
 
-### 2.2 Install dependencies
+### 2.2 Add dependencies
 
 ```bash
-pip install fastapi uvicorn semitone
-pip freeze > requirements.txt
+poetry add fastapi uvicorn semitone
 ```
 
 ---
@@ -69,7 +67,7 @@ def scale(root: str, mode: str = "major"):
 # 4. Test Locally
 
 ```bash
-uvicorn main:app --reload
+poetry run uvicorn main:app --reload
 ```
 
 Test in browser:
@@ -91,8 +89,15 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Poetry
+RUN pip install --no-cache-dir poetry
+
+# Copy Poetry files
+COPY pyproject.toml poetry.lock* ./
+
+# Install dependencies (without creating a virtual environment in the container)
+RUN poetry config virtualenvs.create false && \
+    poetry install --no-interaction --no-ansi
 
 COPY . .
 
@@ -173,4 +178,3 @@ You now have:
 - A containerized FastAPI microservice
 - Your `semitone` package exposed globally
 - A minimal production-style deployment
-
