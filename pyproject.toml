@@ -1,18 +1,28 @@
 [project]
 name = "semitone-api"
 version = "0.1.0"
-description = "A FastAPI application for Semitone"
+description = "A FastAPI microservice exposing the semitone Python package"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+license = { text = "GPL-3.0-or-later" }
 authors = [
-    { name = "mbdeaton" }
+    { name = "Brett Deaton", email = "brett.deaton@gmail.com" }
 ]
-requires-python = ">=3.7,<4.0"
-
+keywords = ["music theory", "scale", "chord", "frequency", "api", "fastapi", "semitone"]
 dependencies = [
     "fastapi>=0.68.0,<1.0.0",
     "uvicorn>=0.15.0,<1.0.0",
-    "semitone"
+    "semitone",
 ]
 
+[project.urls]
+Repository = "https://github.com/mbdeaton/semitone-api"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.0.4"
+mypy = "^1.8.0"
+black = "^24.2.0"
+
 [build-system]
-requires = ["poetry-core>=2.0.0"]
+requires = ["poetry-core>=1.8.0"]
 build-backend = "poetry.core.masonry.api"
