@@ -1,0 +1,12 @@
+__pycache__
+*.pyc
+.git
+.github
+.mypy_cache
+.venv
+.vscode
+tests/
+*.md
+fly.toml
+pylintrc
+check-style.sh
