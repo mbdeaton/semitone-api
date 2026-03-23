@@ -13,7 +13,10 @@ app = FastAPI(
     title=_meta["Name"],
     description=_meta["Summary"],
     version=_meta["Version"],
-    contact={"name": _meta["Author"], "url": _meta["Project-URL"].split(", ")[1]},
+    contact={
+        "name": _meta["Author"],
+        "url": _meta["Project-URL"].split(", ")[1],
+    },
     license_info={"name": _meta["License"]},
 )
 
