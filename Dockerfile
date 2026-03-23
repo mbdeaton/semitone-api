@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir --user poetry
 ENV PATH="/home/appuser/.local/bin:$PATH"
 
 # Copy project metadata first (layer caching)
-COPY --chown=appuser pyproject.toml poetry.lock ./
+COPY --chown=appuser pyproject.toml poetry.lock README.md ./
 
 # Install dependencies only (no dev deps)
 RUN poetry install --only main --no-root --no-interaction

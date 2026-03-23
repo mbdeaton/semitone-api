@@ -6,7 +6,7 @@ __pycache__
 .venv
 .vscode
 tests/
-*.md
+CONTRIBUTING.md
 fly.toml
 pylintrc
 check-style.sh
