@@ -22,6 +22,7 @@ Repository = "https://github.com/mbdeaton/semitone-api"
 pylint = "^3.0.4"
 mypy = "^1.8.0"
 black = "^24.2.0"
+httpx = "^0.28.1"
 
 [build-system]
 requires = ["poetry-core>=1.8.0"]
