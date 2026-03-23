@@ -78,6 +78,32 @@ We use GitHub Actions to automatically run style checks and linting on every
 push and pull request to `main`.
 
 
+## Docker
+
+To build and run the app in a Docker container:
+
+1. **Build the image.**
+
+   ```bash
+   docker build -t semitone-api .
+   ```
+
+2. **Run the container.**
+
+   ```bash
+   docker run -p 8080:8080 semitone-api
+   ```
+
+3. **Verify.** Visit `http://localhost:8080/docs` to confirm the Swagger UI
+   loads, or hit the health endpoint:
+
+   ```bash
+   curl http://localhost:8080/health
+   ```
+
+The image runs as a non-root user on port 8080. Only production dependencies
+are installed (no dev tools).
+
 ## Dependency Management
 
 We use Poetry. Common gestures:
