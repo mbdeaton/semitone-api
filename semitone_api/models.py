@@ -1,3 +1,5 @@
+"""Models for the semitone API."""
+
 from pydantic import BaseModel
 
 
@@ -6,6 +8,6 @@ class ToneOut(BaseModel):
 
 
 class ScaleOut(BaseModel):
-    scale_type: str     # e.g. "major"
-    root: str           # e.g. "C"
+    scale_type: str  # e.g. "major"
+    root: str  # e.g. "C"
     tones: list[ToneOut]
