@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      CHECK_DIRS: "semitone-api tests"
+      CHECK_DIRS: "semitone_api tests"
 
     steps:
       - uses: actions/checkout@v6
