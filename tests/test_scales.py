@@ -8,6 +8,7 @@ from semitone_api.main import app
 
 class TestHealth(unittest.TestCase):
     """Tests for the health check endpoint."""
+
     def setUp(self):
         self.client = TestClient(app)
 
@@ -19,6 +20,7 @@ class TestHealth(unittest.TestCase):
 
 class TestScales(unittest.TestCase):
     """Tests for the scales endpoints."""
+
     def setUp(self):
         self.client = TestClient(app)
 
