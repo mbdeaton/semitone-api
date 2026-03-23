@@ -12,18 +12,17 @@ wrapping the `semitone` Python package, deployed on fly.io via Docker.
 1. Create the project directory (separate repo from `semitone` itself):
    ```
    semitone-api/
-     app/
-       __init__.py
-       main.py
-       models.py
-       exceptions.py
-       routers/
-         __init__.py
-         scales.py
-         intervals.py
-     tests/
-       __init__.py
-       test_scales.py
+    semitone_api/
+      __init__.py
+      main.py
+      models.py
+      exceptions.py
+      routers/
+        __init__.py
+        scales.py
+    tests/
+      __init__.py
+      test_scales.py
      Dockerfile
      fly.toml
      pyproject.toml
