@@ -1,6 +1,6 @@
 """Custom exceptions for the semitone API."""
 
-from fastapi import Request
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 
 
@@ -14,7 +14,7 @@ class InvalidScaleTypeError(Exception):
         self.scale_type = scale_type
 
 
-def register_exception_handlers(app):
+def register_exception_handlers(app: FastAPI):
     @app.exception_handler(InvalidNoteError)
     async def invalid_note_handler(_: Request, exc: InvalidNoteError):
         return JSONResponse(
