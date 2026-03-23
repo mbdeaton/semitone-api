@@ -88,4 +88,8 @@ poetry env activate # print the command to activate the virtual environment
 poetry run COMMAND  # run a command within this environment
 poetry add X             # add runtime dependency X
 poetry add --group dev X # add development dependency X
+
+poetry lock         # regenerate lock file without upgrading versions
+poetry add X@^X.Y.Z # update specific dependency version
+poetry update X     # rebuild poetry.lock from only updated versio to X
 ```
