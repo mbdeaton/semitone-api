@@ -3,7 +3,6 @@
 import unittest
 
 from fastapi.testclient import TestClient
-
 from semitone_api.main import app
 
 
