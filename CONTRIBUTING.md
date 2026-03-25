@@ -104,6 +104,18 @@ To build and run the app in a Docker container:
 The image runs as a non-root user on port 8080. Only production dependencies
 are installed (no dev tools).
 
+
+## Fly.io
+Deploy is automatic with a GitHub action, however some common fly.io gestures:
+
+```bash
+fly deploy # push up app to fly.io and deploy
+fly status # check status of machines
+fly logs   # view logged interactions with the app
+fly machine list --app semitone-api # view deployed machines
+```
+
+
 ## Dependency Management
 
 We use Poetry. Common gestures:
