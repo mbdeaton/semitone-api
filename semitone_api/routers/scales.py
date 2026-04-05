@@ -9,6 +9,13 @@ from semitone_api.exceptions import InvalidNoteError, InvalidScaleTypeError
 
 router = APIRouter(prefix="/scales", tags=["Scales"])
 
+
+def normalize_root(root: str) -> str:
+    """Normalize root note to from URI safe format, e.g. 'Csharp' -> 'C#'"""
+    normalized = root.lower().replace("sharp", "#").replace("flat", "b")
+    return normalized.title()
+
+
 SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {
     "major": st.Major,
     "minor": st.Minor,
@@ -28,13 +35,14 @@ SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {
 def get_scale(
     scale_type: str,
     root: str,
-    octaves_above: int = Query(default=1, ge=0, le=4),
+    octaves_above: int = Query(default=0, ge=0, le=4),
     octaves_below: int = Query(default=0, ge=0, le=4),
 ) -> ScaleOut:
     if scale_type not in SCALE_MAP:
         raise InvalidScaleTypeError(scale_type)
+    normalized_root = normalize_root(root)
     try:
-        scale = SCALE_MAP[scale_type](root)
+        scale = SCALE_MAP[scale_type](normalized_root)
         extended = scale.extend(
             octaves_below=octaves_below, octaves_above=octaves_above
         )
@@ -42,4 +50,5 @@ def get_scale(
         raise InvalidNoteError(root) from exc
 
     tones = [ToneOut(frequency_hz=t.freq) for t in extended.primaries]
-    return ScaleOut(scale_type=scale_type, root=root, tones=tones)
+    display_root = normalized_root
+    return ScaleOut(scale_type=scale_type, root=display_root, tones=tones)
