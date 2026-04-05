@@ -33,7 +33,8 @@
 5. **Run the server locally.**
 
    ```bash
-   poetry run uvicorn semitone_api.main:app --reload
+   poetry run uvicorn semitone_api.main:app --reload                   # run from local env
+   docker run --rm -p 8000:8000 -v "$(pwd):/home/appuser" semitone-api # run from deploy env
    ```
 
 6. **Make your changes and commit.**
@@ -91,17 +92,17 @@ To build and run the app in a Docker container:
 2. **Run the container.**
 
    ```bash
-   docker run -p 8080:8080 semitone-api
+   docker run --rm -p 8000:8000 -v "$(pwd):/home/appuser" semitone-api
    ```
 
-3. **Verify.** Visit `http://localhost:8080/docs` to confirm the Swagger UI
+3. **Verify.** Visit `http://localhost:8000/docs` to confirm the Swagger UI
    loads, or hit the health endpoint:
 
    ```bash
-   curl http://localhost:8080/health
+   curl http://localhost:8000/health
    ```
 
-The image runs as a non-root user on port 8080. Only production dependencies
+The image runs as a non-root user on port 8000. Only production dependencies
 are installed (no dev tools).
 
 
