@@ -21,5 +21,5 @@ COPY --chown=appuser semitone_api/ ./semitone_api/
 # Install the project itself
 RUN poetry install --only main --no-interaction
 
-EXPOSE 8080
-CMD ["poetry", "run", "uvicorn", "semitone_api.main:app", "--host", "0.0.0.0", "--port", "8080"]
+EXPOSE 8000
+CMD ["poetry", "run", "uvicorn", "semitone_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
