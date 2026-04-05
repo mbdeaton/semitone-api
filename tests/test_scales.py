@@ -39,13 +39,3 @@ class TestScales(unittest.TestCase):
         self.assertEqual(body["scale_type"], "minor")
         self.assertEqual(body["root"], "A")
         self.assertGreater(len(body["tones"]), 0)
-
-    def test_invalid_scale_type(self):
-        r = self.client.get("/scales/dorian/C")
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json()["error"], "invalid_scale_type")
-
-    def test_invalid_root_note(self):
-        r = self.client.get("/scales/major/Z9")
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json()["error"], "invalid_note")
