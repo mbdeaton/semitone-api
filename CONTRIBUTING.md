@@ -33,9 +33,18 @@
 5. **Run the server locally.**
 
    ```bash
-   poetry run uvicorn semitone_api.main:app --reload                   # run from local env
-   docker run --rm -p 8000:8000 -v "$(pwd):/home/appuser" semitone-api # run from deploy env
+   poetry run uvicorn semitone_api.main:app --reload # interactive dev server with auto-reload
+   docker run --rm -p 8000:8000 semitone-api         # production-like container run; no auto-reload
    ```
+
+   Use `poetry run uvicorn ... --reload` while developing. It runs in your
+   local environment and reflects code changes automatically.
+
+   Use the Docker path to validate the deploy image defined in the
+   `Dockerfile`. That container starts `uvicorn` without `--reload`, installs
+   only main dependencies, and serves the code baked into the image at build
+   time. Code changes in your working tree will not be reflected in the running
+   container unless you rebuild the image and start a new container.
 
 6. **Make your changes and commit.**
 
@@ -92,7 +101,7 @@ To build and run the app in a Docker container:
 2. **Run the container.**
 
    ```bash
-   docker run --rm -p 8000:8000 -v "$(pwd):/home/appuser" semitone-api
+   docker run --rm -p 8000:8000 semitone-api
    ```
 
 3. **Verify.** Visit `http://localhost:8000/docs` to confirm the Swagger UI
@@ -103,7 +112,8 @@ To build and run the app in a Docker container:
    ```
 
 The image runs as a non-root user on port 8000. Only production dependencies
-are installed (no dev tools).
+are installed (no dev tools), and it does not enable live reload for local
+code changes.
 
 
 ## Fly.io
