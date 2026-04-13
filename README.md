@@ -10,10 +10,8 @@ Root library at
 ## Quick start
 ```bash
 # Frequencies of various scales in various keys
-curl https://semitone-api.fly.dev/scales/major/C
-curl https://semitone-api.fly.dev/scales/minor/Bflat
-curl https://semitone-api.fly.dev/scales/chromatic/F
-
-# With query params
-curl "https://semitone-api.fly.dev/scales/major/C?octaves_above=2"
+curl https://semitone-api.fly.dev/scales/major/c
+curl https://semitone-api.fly.dev/scales/minor/bflat
+curl https://semitone-api.fly.dev/scales/chromatic/f
+curl https://semitone-api.fly.dev/scales/major/c?octaves_above=2
 ```

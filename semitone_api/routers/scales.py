@@ -15,19 +15,29 @@ SCALE_FACTORIES: dict[str, Callable[[str], st.Scale]] = {
 }
 ScaleType = Literal["major", "minor", "chromatic"]
 RootNote = Literal[
-    "aflat", "a", "asharp",
-    "bflat", "b",
-    "c", "csharp",
-    "dflat", "d", "dsharp",
-    "eflat", "e",
-    "f", "fsharp",
-    "gflat", "g", "gsharp",
+    "aflat",
+    "a",
+    "asharp",
+    "bflat",
+    "b",
+    "c",
+    "csharp",
+    "dflat",
+    "d",
+    "dsharp",
+    "eflat",
+    "e",
+    "f",
+    "fsharp",
+    "gflat",
+    "g",
+    "gsharp",
 ]
 router = APIRouter(prefix="/scales", tags=["Scales"])
 
 
 def normalize_root(root: str) -> str:
-    """Convert URI-safe root note spelling to sharps/flats, e.g. 'csharp' -> 'C#'."""
+    """Convert URI-safe note spellings, e.g. 'csharp' -> 'C#'."""
     if root.endswith("sharp"):
         return f"{root[0].upper()}#"
     if root.endswith("flat"):
