@@ -11,7 +11,7 @@ Root library at
 ```bash
 # Frequencies of various scales in various keys
 curl https://semitone-api.fly.dev/scales/major/C
-curl https://semitone-api.fly.dev/scales/minor/Bb
+curl https://semitone-api.fly.dev/scales/minor/Bflat
 curl https://semitone-api.fly.dev/scales/chromatic/F
 
 # With query params
