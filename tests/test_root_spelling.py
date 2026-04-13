@@ -35,3 +35,13 @@ class TestRootSpelling(unittest.TestCase):
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertEqual(body["root"], "Db")
+
+    def test_flat_compact_notation_rejected(self):
+        r = self.client.get("/scales/minor/Db")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.json()["error"], "invalid_note")
+
+    def test_sharp_compact_notation_rejected(self):
+        r = self.client.get("/scales/minor/D%23")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.json()["error"], "invalid_note")

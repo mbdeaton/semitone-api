@@ -1,19 +1,30 @@
 """Routes for scale-related endpoints."""
 
 from collections.abc import Callable
+import re
 from fastapi import APIRouter, Query
 import semitone as st
 
 from semitone_api.models import ScaleOut, ToneOut
-from semitone_api.exceptions import InvalidNoteError, InvalidScaleTypeError
+from semitone_api.exceptions import (
+    InvalidNoteError,
+    InvalidScaleTypeError,
+)
 
 router = APIRouter(prefix="/scales", tags=["Scales"])
 
 
 def normalize_root(root: str) -> str:
-    """Normalize root note to from URI safe format, e.g. 'Csharp' -> 'C#'"""
-    normalized = root.lower().replace("sharp", "#").replace("flat", "b")
-    return normalized.title()
+    """Normalize URI-safe root note spelling, e.g. 'Csharp' -> 'C#'."""
+    lowered = root.lower()
+    if not re.fullmatch(r"[a-g](flat|sharp)?", lowered):
+        raise InvalidNoteError(root)
+
+    if lowered.endswith("sharp"):
+        return f"{lowered[0].upper()}#"
+    if lowered.endswith("flat"):
+        return f"{lowered[0].upper()}b"
+    return lowered.upper()
 
 
 SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {

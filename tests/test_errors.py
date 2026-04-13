@@ -18,6 +18,11 @@ class TestErrors(unittest.TestCase):
         self.assertEqual(r.json()["error"], "invalid_scale_type")
 
     def test_invalid_root_note(self):
-        r = self.client.get("/scales/major/Z9")
+        r = self.client.get("/scales/major/H")
+        self.assertEqual(r.status_code, 400)
+        self.assertEqual(r.json()["error"], "invalid_note")
+
+    def test_invalid_root_spelling(self):
+        r = self.client.get("/scales/major/Bb")
         self.assertEqual(r.status_code, 400)
         self.assertEqual(r.json()["error"], "invalid_note")
