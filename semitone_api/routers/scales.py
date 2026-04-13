@@ -1,30 +1,34 @@
 """Routes for scale-related endpoints."""
 
 from collections.abc import Callable
-import re
+from typing import Literal
 from fastapi import APIRouter, Query
 import semitone as st
 
 from semitone_api.models import ScaleOut, ToneOut
-from semitone_api.exceptions import (
-    InvalidNoteError,
-    InvalidScaleTypeError,
-)
+from semitone_api.exceptions import InvalidNoteError
+
+ScaleType = Literal["major", "minor", "chromatic"]
+RootNote = Literal[
+    "aflat", "a", "asharp",
+    "bflat", "b",
+    "c", "csharp",
+    "dflat", "d", "dsharp",
+    "eflat", "e",
+    "f", "fsharp",
+    "gflat", "g", "gsharp",
+]
 
 router = APIRouter(prefix="/scales", tags=["Scales"])
 
 
 def normalize_root(root: str) -> str:
-    """Normalize URI-safe root note spelling, e.g. 'Csharp' -> 'C#'."""
-    lowered = root.lower()
-    if not re.fullmatch(r"[a-g](flat|sharp)?", lowered):
-        raise InvalidNoteError(root)
-
-    if lowered.endswith("sharp"):
-        return f"{lowered[0].upper()}#"
-    if lowered.endswith("flat"):
-        return f"{lowered[0].upper()}b"
-    return lowered.upper()
+    """Convert URI-safe root note spelling to sharps/flats, e.g. 'csharp' -> 'C#'."""
+    if root.endswith("sharp"):
+        return f"{root[0].upper()}#"
+    if root.endswith("flat"):
+        return f"{root[0].upper()}b"
+    return root.upper()
 
 
 SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {
@@ -44,13 +48,11 @@ SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {
     ),
 )
 def get_scale(
-    scale_type: str,
-    root: str,
+    scale_type: ScaleType,
+    root: RootNote,
     octaves_above: int = Query(default=0, ge=0, le=4),
     octaves_below: int = Query(default=0, ge=0, le=4),
 ) -> ScaleOut:
-    if scale_type not in SCALE_MAP:
-        raise InvalidScaleTypeError(scale_type)
     normalized_root = normalize_root(root)
     try:
         scale = SCALE_MAP[scale_type](normalized_root)

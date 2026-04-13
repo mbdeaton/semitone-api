@@ -25,7 +25,7 @@ class TestScales(unittest.TestCase):
         self.client = TestClient(app)
 
     def test_major_scale_c(self):
-        r = self.client.get("/scales/major/C")
+        r = self.client.get("/scales/major/c")
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertEqual(body["scale_type"], "major")
@@ -33,7 +33,7 @@ class TestScales(unittest.TestCase):
         self.assertGreater(len(body["tones"]), 0)
 
     def test_minor_scale_a(self):
-        r = self.client.get("/scales/minor/A")
+        r = self.client.get("/scales/minor/a")
         self.assertEqual(r.status_code, 200)
         body = r.json()
         self.assertEqual(body["scale_type"], "minor")

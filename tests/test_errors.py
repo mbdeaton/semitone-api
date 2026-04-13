@@ -13,16 +13,16 @@ class TestErrors(unittest.TestCase):
         self.client = TestClient(app)
 
     def test_invalid_scale_type(self):
-        r = self.client.get("/scales/dorian/C")
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json()["error"], "invalid_scale_type")
+        r = self.client.get("/scales/dorian/c")
+        self.assertEqual(r.status_code, 422)
+        self.assertIn("detail", r.json())
 
     def test_invalid_root_note(self):
-        r = self.client.get("/scales/major/H")
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json()["error"], "invalid_note")
+        r = self.client.get("/scales/major/h")
+        self.assertEqual(r.status_code, 422)
+        self.assertIn("detail", r.json())
 
     def test_invalid_root_spelling(self):
-        r = self.client.get("/scales/major/Bb")
-        self.assertEqual(r.status_code, 400)
-        self.assertEqual(r.json()["error"], "invalid_note")
+        r = self.client.get("/scales/major/bb")
+        self.assertEqual(r.status_code, 422)
+        self.assertIn("detail", r.json())
