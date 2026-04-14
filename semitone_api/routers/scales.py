@@ -1,26 +1,48 @@
 """Routes for scale-related endpoints."""
 
 from collections.abc import Callable
+from typing import Literal
 from fastapi import APIRouter, Query
 import semitone as st
 
 from semitone_api.models import ScaleOut, ToneOut
-from semitone_api.exceptions import InvalidNoteError, InvalidScaleTypeError
+from semitone_api.exceptions import InvalidNoteError
 
-router = APIRouter(prefix="/scales", tags=["Scales"])
-
-
-def normalize_root(root: str) -> str:
-    """Normalize root note to from URI safe format, e.g. 'Csharp' -> 'C#'"""
-    normalized = root.lower().replace("sharp", "#").replace("flat", "b")
-    return normalized.title()
-
-
-SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {
+SCALE_FACTORIES: dict[str, Callable[[str], st.Scale]] = {
     "major": st.Major,
     "minor": st.Minor,
     "chromatic": st.Chromatic,
 }
+ScaleType = Literal["major", "minor", "chromatic"]
+RootNote = Literal[
+    "aflat",
+    "a",
+    "asharp",
+    "bflat",
+    "b",
+    "c",
+    "csharp",
+    "dflat",
+    "d",
+    "dsharp",
+    "eflat",
+    "e",
+    "f",
+    "fsharp",
+    "gflat",
+    "g",
+    "gsharp",
+]
+router = APIRouter(prefix="/scales", tags=["Scales"])
+
+
+def normalize_root(root: str) -> str:
+    """Convert URI-safe note spellings, e.g. 'csharp' -> 'C#'."""
+    if root.endswith("sharp"):
+        return f"{root[0].upper()}#"
+    if root.endswith("flat"):
+        return f"{root[0].upper()}b"
+    return root.upper()
 
 
 @router.get(
@@ -33,16 +55,14 @@ SCALE_MAP: dict[str, Callable[[str], st.Scale]] = {
     ),
 )
 def get_scale(
-    scale_type: str,
-    root: str,
-    octaves_above: int = Query(default=0, ge=0, le=4),
+    scale_type: ScaleType,
+    root: RootNote,
     octaves_below: int = Query(default=0, ge=0, le=4),
+    octaves_above: int = Query(default=0, ge=0, le=4),
 ) -> ScaleOut:
-    if scale_type not in SCALE_MAP:
-        raise InvalidScaleTypeError(scale_type)
     normalized_root = normalize_root(root)
     try:
-        scale = SCALE_MAP[scale_type](normalized_root)
+        scale = SCALE_FACTORIES[scale_type](normalized_root)
         extended = scale.extend(
             octaves_below=octaves_below, octaves_above=octaves_above
         )

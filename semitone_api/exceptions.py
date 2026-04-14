@@ -24,15 +24,3 @@ def register_exception_handlers(app: FastAPI):
                 "detail": f"'{exc.note}' is not a recognized note name.",
             },
         )
-
-    @app.exception_handler(InvalidScaleTypeError)
-    async def invalid_scale_type_handler(
-        _: Request, exc: InvalidScaleTypeError
-    ):
-        return JSONResponse(
-            status_code=400,
-            content={
-                "error": "invalid_scale_type",
-                "detail": f"'{exc.scale_type}' is not a supported scale type.",
-            },
-        )
