@@ -39,3 +39,47 @@ class TestScales(unittest.TestCase):
         self.assertEqual(body["scale_type"], "minor")
         self.assertEqual(body["root"], "A")
         self.assertGreater(len(body["tones"]), 0)
+
+    def test_chromatic_scale_c(self):
+        r = self.client.get("/scales/chromatic/c")
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(body["scale_type"], "chromatic")
+        self.assertEqual(body["root"], "C")
+        self.assertGreater(len(body["tones"]), 0)
+
+    def test_diatonic_mode_ionian(self):
+        r = self.client.get("/scales/diatonic-mode/1/c")
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(body["scale_type"], "diatonic-mode")
+        self.assertEqual(body["root"], "C")
+        self.assertGreater(len(body["tones"]), 0)
+
+    def test_diatonic_mode_dorian(self):
+        r = self.client.get("/scales/diatonic-mode/2/d")
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(body["scale_type"], "diatonic-mode")
+        self.assertEqual(body["root"], "D")
+        self.assertGreater(len(body["tones"]), 0)
+
+    def test_diatonic_mode_invalid(self):
+        r = self.client.get("/scales/diatonic-mode/0/c")
+        self.assertEqual(r.status_code, 400)
+
+    def test_harmonic_octave(self):
+        r = self.client.get("/scales/harmonic-octave/12/c")
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(body["scale_type"], "harmonic-octave")
+        self.assertEqual(body["root"], "C")
+        self.assertGreater(len(body["tones"]), 0)
+
+    def test_harmonic_series(self):
+        r = self.client.get("/scales/harmonic-series/12/c")
+        self.assertEqual(r.status_code, 200)
+        body = r.json()
+        self.assertEqual(body["scale_type"], "harmonic-series")
+        self.assertEqual(body["root"], "C")
+        self.assertGreater(len(body["tones"]), 0)
